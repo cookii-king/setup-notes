@@ -1,1 +1,78 @@
+1)
+create a server instance.
+
+2)
+save the key pair & change mode to 400
+(sudo chmod 400 <keyfile path>)
+
+3)
+login to the instance via ssh
+(ssh -i <keyfile path> <username>@<domain name/ip address>)
+
+
+4)
+install node & npm
+(
+sudo apt install curl -y
+sudo curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt-get install -y nodejs
+sudo node --version
+sudo npm --version
+)
+
+5)
+initialise node js server
+(
+npm init -y
+npm install express
+npm install cors
+)
+
+6)
+initialise nginx web server
+(
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+	root /var/www/html;
+	index index.html index.htm index.nginx-debian.html;
+	server_name _;
+	location / {
+	    proxy_set_header Host $host;
+	    proxy_set_header X-Real-IP $remote_addr;
+	    proxy_pass http://localhost:3000; #port where you are serving your express app.
+	}
+}
+)
+
+7)
+create simple express js file to test if it works
+(
+cat << EOF > app.js
+const express = require('express');
+const { exec } = require('child_process');
+const cors = require('cors');
+const path = require("path");
+const app = express();
+const port = 3000;
+
+app.use(express.json());
+app.use(cors()); // Enable CORS for all routes
+
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
+app.listen(port, () => {
+  console.log(\`App listening at http://localhost:\${port}\`);
+});
+EOF
+)
+
+8)
+install pm2 that automatically starts express
+(
+sudo npm install pm2@latest -g
+)
+
 
