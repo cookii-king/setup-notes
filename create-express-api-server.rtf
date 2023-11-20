@@ -75,4 +75,42 @@ install pm2 that automatically starts express
 sudo npm install pm2@latest -g
 )
 
+9)
+install certbot for ssl certifcates
+(
+sudo apt install certbot -y
+sudo apt install python3-certbot-nginx -y
+)
+
+10)
+change & add domain name to server
+(
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+	root /var/www/html;
+	index index.html index.htm index.nginx-debian.html;
+	server_name api.domain.com;
+	location / {
+	    proxy_set_header Host $host;
+	    proxy_set_header X-Real-IP $remote_addr;
+	    proxy_pass http://localhost:3000; #port where you are serving your express app.
+	}
+}
+)
+add another server block
+(
+server {
+	listen 80;
+	server_name ip-address;
+	return 301 http://api.domain.com;
+}
+)
+
+11)
+initialise certbot ssl
+(
+sudo certbot --nginx
+)
+
 
