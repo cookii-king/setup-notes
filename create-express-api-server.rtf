@@ -14,8 +14,8 @@ login to the instance via ssh
 install node & npm
 (
 sudo apt install curl -y
-sudo curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-sudo apt-get install -y nodejs
+sudo apt install node -y
+sudo apt install npm -y
 sudo node --version
 sudo npm --version
 )
@@ -24,8 +24,8 @@ sudo npm --version
 initialise node js server
 (
 npm init -y
-npm install express
-npm install cors
+npm install express -y
+npm install cors -y
 )
 
 6)
@@ -36,7 +36,7 @@ server {
 	listen [::]:80 default_server;
 	root /var/www/html;
 	index index.html index.htm index.nginx-debian.html;
-	server_name _;
+	server_name <domain name>;
 	location / {
 	    proxy_set_header Host $host;
 	    proxy_set_header X-Real-IP $remote_addr;
@@ -90,7 +90,7 @@ server {
 	listen [::]:80 default_server;
 	root /var/www/html;
 	index index.html index.htm index.nginx-debian.html;
-	server_name api.domain.com;
+	server_name <api.domain.com>;
 	location / {
 	    proxy_set_header Host $host;
 	    proxy_set_header X-Real-IP $remote_addr;
@@ -102,8 +102,8 @@ add another server block
 (
 server {
 	listen 80;
-	server_name ip-address;
-	return 301 http://api.domain.com;
+	server_name <ip address>;
+	return 301 <http://api.domain.com>;
 }
 )
 
