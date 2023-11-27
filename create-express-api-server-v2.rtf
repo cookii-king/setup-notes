@@ -1,0 +1,26 @@
+sudo apt update
+sudo apt install nginx -y
+sudo apt install nodejs -y
+sudo apt install npm -y
+npm init -y
+npm i express
+npm i multer
+npm i cors
+sudo nano app.js
+```
+const express = require('express');
+const multer = require('multer');
+const cors = require('cors');
+const app = express();
+const port = 3000;
+app.use(cors());
+app.get('/', (req, res) => {
+    res.send('Squared Lens Api.');
+});
+app.listen(port, () => {
+    console.log(`App listening at http://localhost:${port}`);
+});
+```
+node app.js
+
+*important inoder for express app to work move all files associated to you web directory e.g. /var/www/html/*
